@@ -1,23 +1,26 @@
 # waitfor
-> Executes a command when all dependencies are available.
+> Test and wait on the availability of a remote resource.
 
 
 ## Features
-- Multiple parallel resource resolutions
+- Parallel availability tests
 - Exponential backoff
-- Different types of resource (http(s), proc, postgres, mysql)
+- Different types of remote resource (http(s), proc, postgres, mysql)
 
 ## Usage
 
 ```bash
 NAME:
-   waitfor - provide resources to wait for their availability
+   waitfor - Tests and waits on the availability of a remote resource
 
 USAGE:
    waitfor [global options] command [command options] [arguments...]
 
+VERSION:
+   cc9c766-dirty
+
 DESCRIPTION:
-   waits for resources to be available before executing a command with exponential backoff
+   Tests and waits on the availability of a remote resource before executing a command with exponential backoff
 
 COMMANDS:
    help, h  Shows a list of commands or help for one command
@@ -28,5 +31,6 @@ GLOBAL OPTIONS:
    --interval value            interval between attempts (sec) (default: 5) [$WAITFOR_INTERVAL]
    --max-interval value        maximum interval between attempts (sec) (default: 60) [$WAITFOR_MAX_INTERVAL]
    --help, -h                  show help (default: false)
+   --version, -v               print the version (default: false)
 
 ```

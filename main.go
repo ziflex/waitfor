@@ -12,8 +12,8 @@ var version string
 func main() {
 	app := &cli.App{
 		Name:        "waitfor",
-		Usage:       "provide resources to wait for their availability",
-		Description: "waits for resources to be available before executing a command with exponential backoff",
+		Usage:       "Tests and waits on the availability of a remote resource",
+		Description: "Tests and waits on the availability of a remote resource before executing a command with exponential backoff",
 		Version:     version,
 		Flags: []cli.Flag{
 			&cli.StringSliceFlag{
