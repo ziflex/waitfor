@@ -16,9 +16,6 @@ NAME:
 USAGE:
    waitfor [global options] command [command options] [arguments...]
 
-VERSION:
-   cc9c766-dirty
-
 DESCRIPTION:
    Tests and waits on the availability of a remote resource before executing a command with exponential backoff
 
