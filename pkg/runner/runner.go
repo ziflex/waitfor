@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/cenkalti/backoff"
 	"os/exec"
 	"sync"
+
+	"github.com/cenkalti/backoff"
 
 	"github.com/ziflex/waitfor/pkg/resources"
 )

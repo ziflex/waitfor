@@ -9,10 +9,10 @@
 ## Resources
 - File (``file://``)
 - OS Process (``proc://``)
-- HTTP(S) Endpoint (``http://`` / ``https://``)
+- HTTP(S) Endpoint (``http://`` & ``https://``)
 - MongoDB (``mongodb://``)
 - Postgres (``postgres://``)
-- MySQL/MariaDB (``mysql://`` / ``mariadb://``)
+- MySQL/MariaDB (``mysql://`` & ``mariadb://``)
 
 ## Resource URLs
 All resource locations start with url schema type e.g. ``file://./myfile`` or ``postgres://locahost:5432/mydb?user=user&password=test``
@@ -40,7 +40,7 @@ COMMANDS:
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --resource value, -d value  -r http://localhost:8080 [$WAITFOR_RESOURCE]
+   --resource value, -r value  -r http://localhost:8080 [$WAITFOR_RESOURCE]
    --attempts value, -a value  amount of attempts (default: 5) [$WAITFOR_ATTEMPTS]
    --interval value            interval between attempts (sec) (default: 5) [$WAITFOR_INTERVAL]
    --max-interval value        maximum interval between attempts (sec) (default: 60) [$WAITFOR_MAX_INTERVAL]

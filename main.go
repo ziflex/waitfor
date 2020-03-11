@@ -18,7 +18,7 @@ func main() {
 		Flags: []cli.Flag{
 			&cli.StringSliceFlag{
 				Name:     "resource",
-				Aliases:  []string{"d"},
+				Aliases:  []string{"r"},
 				Usage:    "-r http://localhost:8080",
 				EnvVars:  []string{"WAITFOR_RESOURCE"},
 				Required: true,
