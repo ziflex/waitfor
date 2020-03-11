@@ -29,7 +29,7 @@ var driverNames = map[SQLDriver]string{
 	MYSQL_DRIVER:    "mysql",
 }
 
-func NewSQL(driver SQLDriver, connStr string) (*SQL, error) {
+func NewSQL(driver SQLDriver, connStr string) (Resource, error) {
 	driverName, found := driverNames[driver]
 
 	if !found {

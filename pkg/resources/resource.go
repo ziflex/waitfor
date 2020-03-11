@@ -23,6 +23,10 @@ func New(location string) (Resource, error) {
 		return NewHTTP(location), nil
 	case "proc":
 		return NewProcess(location), nil
+	case "file":
+		return NewFile(strings.TrimPrefix(location, "file://")), nil
+	case "mongodb":
+		return NewMongoDB(location), nil
 	case "postgres":
 		return NewSQL(POSTGRES_DRIVER, location)
 	case "mysql", "mariadb":
