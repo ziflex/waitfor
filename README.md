@@ -1,14 +1,31 @@
 # waitfor
 > Test and wait on the availability of a remote resource.
 
-
 ## Features
 - Parallel availability tests
 - Exponential backoff
 - Different types of remote resource (http(s), proc, postgres, mysql)
 
-## Usage
+## Resources
+- File (``file://``)
+- OS Process (``proc://``)
+- HTTP(S) Endpoint (``http://`` / ``https://``)
+- MongoDB (``mongodb://``)
+- Postgres (``postgres://``)
+- MySQL/MariaDB (``mysql://`` / ``mariadb://``)
 
+## Resource URLs
+All resource locations start with url schema type e.g. ``file://./myfile`` or ``postgres://locahost:5432/mydb?user=user&password=test``
+
+## CLI usage
+CLI is a simple wrapper around this library.
+
+### Basic usage
+```bash
+    waitfor -r postgres://locahost:5432/mydb?user=user&password=test -r http://myservice:8080 npm start
+```
+
+### Options
 ```bash
 NAME:
    waitfor - Tests and waits on the availability of a remote resource
