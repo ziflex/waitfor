@@ -49,6 +49,8 @@ func runAll(ctx context.Context, resources []string, opts Options) <-chan error 
 	output := make(chan error, len(resources))
 
 	for _, resource := range resources {
+		resource := resource
+
 		go func() {
 			defer wg.Done()
 
