@@ -18,15 +18,25 @@ type Program struct {
 	Resources  []string
 }
 
+// Run resource availability tests and execute a given command
 func Run(ctx context.Context, program Program, setters ...Option) ([]byte, error) {
-	opts := NewOptions()
+	err := Test(ctx, program.Resources, setters...)
 
-	for _, setter := range setters {
-		setter(opts)
+	if err != nil {
+		return nil, err
 	}
 
+	cmd := exec.Command(program.Executable, program.Args...)
+
+	return cmd.CombinedOutput()
+}
+
+// Run resource availability tests
+func Test(ctx context.Context, resources []string, setters ...Option) error {
+	opts := NewOptions(setters...)
+
 	var buff bytes.Buffer
-	output := runAll(ctx, program.Resources, *opts)
+	output := testAllInternal(ctx, resources, *opts)
 
 	for err := range output {
 		if err != nil {
@@ -35,15 +45,13 @@ func Run(ctx context.Context, program Program, setters ...Option) ([]byte, error
 	}
 
 	if buff.Len() != 0 {
-		return nil, fmt.Errorf("failed to wait for resources: %s", buff.String())
+		return fmt.Errorf("failed to wait for resources: %s", buff.String())
 	}
 
-	cmd := exec.Command(program.Executable, program.Args...)
-
-	return cmd.CombinedOutput()
+	return nil
 }
 
-func runAll(ctx context.Context, resources []string, opts Options) <-chan error {
+func testAllInternal(ctx context.Context, resources []string, opts Options) <-chan error {
 	var wg sync.WaitGroup
 	wg.Add(len(resources))
 
@@ -55,7 +63,7 @@ func runAll(ctx context.Context, resources []string, opts Options) <-chan error 
 		go func() {
 			defer wg.Done()
 
-			output <- run(ctx, resource, opts)
+			output <- testInternal(ctx, resource, opts)
 		}()
 	}
 
@@ -67,7 +75,7 @@ func runAll(ctx context.Context, resources []string, opts Options) <-chan error 
 	return output
 }
 
-func run(ctx context.Context, resource string, opts Options) error {
+func testInternal(ctx context.Context, resource string, opts Options) error {
 	r, err := resources.New(resource)
 
 	if err != nil {
