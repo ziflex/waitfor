@@ -17,7 +17,68 @@
 ## Resource URLs
 All resource locations start with url schema type e.g. ``file://./myfile`` or ``postgres://locahost:5432/mydb?user=user&password=test``
 
-## CLI usage
+## Library
+
+### Test resource availability
+```go
+package main 
+
+import (
+    "context"
+    "fmt"
+    "os"
+	"github.com/ziflex/waitfor/pkg/runner"
+)
+
+func main() {
+    err := runner.Test(
+        context.Background(),
+        []string{"postgres://locahost:5432/mydb?user=user&password=test"},
+        runner.WithAttempts(5),
+    )
+    
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }
+}
+```
+
+
+### Test resource availability and run a program
+```go
+package main 
+
+import (
+    "context"
+    "fmt"
+    "os"
+	"github.com/ziflex/waitfor/pkg/runner"
+)
+
+func main() {
+    program := runner.Program{
+        Executable: "myapp",
+        Args:       []string{"--database", "postgres://locahost:5432/mydb?user=user&password=test"},
+        Resources:  []string{"postgres://locahost:5432/mydb?user=user&password=test"},
+    }
+    
+    out, err := runner.Run(
+        context.Background(),
+        program,
+        runner.WithAttempts(5),
+    )
+    
+    if err != nil {
+        fmt.Println(err)
+        os.Exit(1)
+    }
+    
+    fmt.Println(string(out))
+}
+```
+
+## CLI
 CLI is a simple wrapper around this library.
 
 ### Basic usage
