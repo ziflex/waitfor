@@ -17,7 +17,7 @@ install:
 compile:
 	go build -v -o ${DIR_BIN}/${NAME} \
 	-ldflags "-X main.version=${VERSION}" \
-	./main.go
+	./cmd/waitfor/main.go
 
 test:
 	go test ./...
@@ -37,15 +37,3 @@ lint:
 
 vet:
 	go vet ./...
-
-release:
-ifeq ($(RELEASE_VERSION), )
-	$(error "Release version is required (version=x)")
-else ifeq ($(GITHUB_TOKEN), )
-	$(error "GitHub token is required (GITHUB_TOKEN)")
-else
-	rm -rf ./dist && \
-	git tag -a v$(RELEASE_VERSION) -m "New $(RELEASE_VERSION) version" && \
-	git push origin v$(RELEASE_VERSION) && \
-	goreleaser
-endif

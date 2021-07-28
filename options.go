@@ -1,4 +1,4 @@
-package runner
+package waitfor
 
 import (
 	"time"
@@ -15,7 +15,7 @@ type (
 )
 
 // Create new options
-func NewOptions(setters ...Option) *Options {
+func newOptions(setters []Option) *Options {
 	opts := &Options{
 		interval:    time.Duration(5) * time.Second,
 		maxInterval: time.Duration(60) * time.Second,

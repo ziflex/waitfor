@@ -1,4 +1,4 @@
-package resources_test
+package http_test
 
 import (
 	"context"
@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ziflex/waitfor/pkg/resources"
+	"github.com/ziflex/waitfor/v2/resources/http"
 )
 
 func TestHTTP(t *testing.T) {
-	r := resources.NewHTTP("https://www.github.com")
+	r := http.New("https://www.github.com")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -23,7 +23,7 @@ func TestHTTP(t *testing.T) {
 }
 
 func TestHTTP2(t *testing.T) {
-	r := resources.NewHTTP("https://localhost:1000")
+	r := http.New("https://localhost:1000")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

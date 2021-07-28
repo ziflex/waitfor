@@ -1,4 +1,4 @@
-package resources_test
+package proc_test
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ziflex/waitfor/pkg/resources"
+	"github.com/ziflex/waitfor/v2/resources/proc"
 )
 
 func TestProcess(t *testing.T) {
@@ -21,7 +21,7 @@ func TestProcess(t *testing.T) {
 		processName = "systemd"
 	}
 
-	r := resources.NewProcess(processName)
+	r := proc.New(processName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -34,7 +34,7 @@ func TestProcess(t *testing.T) {
 }
 
 func TestProcess2(t *testing.T) {
-	r := resources.NewProcess("fsfsdfds")
+	r := proc.New("fsfsdfds")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

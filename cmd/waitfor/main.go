@@ -2,9 +2,17 @@ package main
 
 import (
 	"fmt"
-	"github.com/urfave/cli/v2"
-	"github.com/ziflex/waitfor/pkg/runner"
 	"os"
+
+	"github.com/urfave/cli/v2"
+
+	"github.com/ziflex/waitfor/v2"
+	"github.com/ziflex/waitfor/v2/resources/fs"
+	"github.com/ziflex/waitfor/v2/resources/http"
+	"github.com/ziflex/waitfor/v2/resources/mongodb"
+	"github.com/ziflex/waitfor/v2/resources/mysql"
+	"github.com/ziflex/waitfor/v2/resources/postgres"
+	"github.com/ziflex/waitfor/v2/resources/proc"
 )
 
 var version string
@@ -48,7 +56,7 @@ func main() {
 				return cli.NewExitError("executable is required", 1)
 			}
 
-			program := runner.Program{
+			program := waitfor.Program{
 				Executable: "",
 				Args:       nil,
 				Resources:  ctx.StringSlice("resource"),
@@ -62,12 +70,21 @@ func main() {
 				program.Args = args[1:]
 			}
 
+			runner := waitfor.New(
+				fs.Use(),
+				http.Use(),
+				mongodb.Use(),
+				proc.Use(),
+				mysql.Use(),
+				postgres.Use(),
+			)
+
 			out, err := runner.Run(
 				ctx.Context,
 				program,
-				runner.WithAttempts(ctx.Uint64("attempts")),
-				runner.WithInterval(ctx.Uint64("interval")),
-				runner.WithMaxInterval(ctx.Uint64("max-interval")),
+				waitfor.WithAttempts(ctx.Uint64("attempts")),
+				waitfor.WithInterval(ctx.Uint64("interval")),
+				waitfor.WithMaxInterval(ctx.Uint64("max-interval")),
 			)
 
 			if out != nil {

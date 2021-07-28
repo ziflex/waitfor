@@ -1,14 +1,16 @@
-package resources_test
+package fs_test
 
 import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/ziflex/waitfor/pkg/resources"
+	"net/url"
 	"os"
 	"path/filepath"
 	"testing"
 	"time"
+
+	"github.com/ziflex/waitfor/v2/resources/fs"
 )
 
 func TestFile(t *testing.T) {
@@ -24,7 +26,18 @@ func TestFile(t *testing.T) {
 	defer file.Close()
 	defer os.Remove(fileName)
 
-	r := resources.NewFile(fileName)
+	u, err := url.Parse("file://" + fileName)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	r, err := fs.New(u)
+
+	if err != nil {
+		t.Error(err)
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -35,12 +48,31 @@ func TestFile(t *testing.T) {
 	}
 }
 
-func TestFile2(t *testing.T) {
-	r := resources.NewFile(filepath.Join(os.TempDir(), "fdsfsdfds"))
+func TestFile_FileNotExists(t *testing.T) {
+	u, err := url.Parse("file://" + filepath.Join(os.TempDir(), "fdsfsdfds"))
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	r, err := fs.New(u)
+
+	if err != nil {
+		t.Error(err)
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	err := r.Test(ctx)
+	err = r.Test(ctx)
+
+	if err == nil {
+		t.Error(errors.New("should fail"))
+	}
+}
+
+func TestFile_MissedURL(t *testing.T) {
+	_, err := fs.New(nil)
 
 	if err == nil {
 		t.Error(errors.New("should fail"))
