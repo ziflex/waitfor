@@ -1,6 +1,11 @@
 # waitfor
 > Test and wait on the availability of a remote resource.
 
+# DEPRECATED
+The project moved to [go-waitfor](https://github.com/go-waitfor) organization.
+- [CLI](https://github.com/go-waitfor/cli)
+- [lib](https://github.com/go-waitfor/waitfor)
+
 ## Features
 - Parallel availability tests
 - Exponential backoff
